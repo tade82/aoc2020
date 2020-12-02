@@ -3,10 +3,6 @@ def read_lines(file_name):
         return fp.readlines()
 
 
-def expense(index):
-    return int(lines[index])
-
-
 if __name__ == '__main__':
     lines = read_lines("2.txt")
     total = 0
