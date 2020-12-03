@@ -1,27 +1,33 @@
+import collections
+
+
 def read_lines(file_name):
     with open(file_name) as fp:
         return fp.read().splitlines()
 
 
-def move(pos, slope):
-    return (pos[0] + slope[0], pos[1] + slope[1])
+Pos = collections.namedtuple('Pos', 'x y')
+
+
+def move(a: Pos, b: Pos):
+    return Pos(a.x + b.x, a.y + b.y)
 
 
 if __name__ == '__main__':
     lines = read_lines("3.txt")
     mod = len(lines[0])
-    slopes = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
-    pos = (0, 0)
+    slopes = [Pos(1, 1), Pos(3, 1), Pos(5, 1), Pos(7, 1), Pos(1, 2)]
+    pos = Pos(0, 0)
     tree_per_slope = {}
     for slope in slopes:
         count = 0
-        while pos[1] < len(lines):
-            if lines[pos[1]][pos[0] % mod] == '#':
+        while pos.y < len(lines):
+            if lines[pos.y][pos.x % mod] == '#':
                 count += 1
             pos = move(pos, slope)
 
         print(f'{slope} -> {count}')
-        pos = (0, 0)
+        pos = Pos(0, 0)
         tree_per_slope[slope] = count
 
     result = 1
