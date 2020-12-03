@@ -1,5 +1,7 @@
 import collections
 
+import numpy
+
 
 def read_lines(file_name):
     with open(file_name) as fp:
@@ -30,7 +32,5 @@ if __name__ == '__main__':
         pos = Pos(0, 0)
         tree_per_slope[slope] = count
 
-    result = 1
-    for slope, count in tree_per_slope.items():
-        result *= count
+    result = numpy.prod(list(tree_per_slope.values()))
     print(f'result: {result}')
