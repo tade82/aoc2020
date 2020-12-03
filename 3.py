@@ -15,11 +15,11 @@ if __name__ == '__main__':
     tree_per_slope = {}
     for slope in slopes:
         count = 0
-        pos = move(pos, slope)
         while pos[1] < len(lines):
             if lines[pos[1]][pos[0] % mod] == '#':
                 count += 1
             pos = move(pos, slope)
+
         print(f'{slope} -> {count}')
         pos = (0, 0)
         tree_per_slope[slope] = count
