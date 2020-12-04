@@ -26,7 +26,7 @@ def validate(passports, with_value_check=False):
             if not with_value_check or rules[fk](fv):
                 fields[fk] = fv
 
-        if set(rules).symmetric_difference(set(['cid'])).issubset(fields):
+        if set(rules).symmetric_difference({'cid'}).issubset(fields):
             result += 1
     return result
 
@@ -35,4 +35,3 @@ if __name__ == '__main__':
     passports = read_passports('4.txt')
     print(f'1st result: {validate(passports)}')
     print(f'2nd result: {validate(passports, with_value_check=True)}')
-
