@@ -9,10 +9,9 @@ def read_lines(file_name):
         return fp.read().splitlines()
 
 
-if __name__ == '__main__':
+def count_trees(*slopes):
     lines = read_lines("3.txt")
     mod = len(lines[0])
-    slopes = [Coordinate(1, 1), Coordinate(3, 1), Coordinate(5, 1), Coordinate(7, 1), Coordinate(1, 2)]
     pos = Coordinate(0, 0)
     trees = []
     for slope in slopes:
@@ -22,9 +21,11 @@ if __name__ == '__main__':
                 count += 1
             pos = pos + slope
 
-        print(f'{slope} -> {count}')
         pos = Coordinate(0, 0)
         trees.append(count)
+    return numpy.prod(trees)
 
-    result = numpy.prod(trees)
-    print(f'result: {result}')
+
+if __name__ == '__main__':
+    print(f'1st result: {count_trees(Coordinate(3, 1))}')
+    print(f'2nd result: {count_trees(Coordinate(1, 1), Coordinate(3, 1), Coordinate(5, 1), Coordinate(7, 1), Coordinate(1, 2))}')
