@@ -3,16 +3,6 @@ def read_lines(file_name):
         return fp.read().splitlines()
 
 
-def get_accumulator(input):
-    for i in range(len(input)):
-        lines = input.copy()
-        if op(lines, i) != 'acc':
-            swap(lines, i)
-            ind, accumulator = execute(lines)
-            if ind >= len(input):
-                return ind, accumulator
-
-
 def op(lines, i):
     return lines[i].split(' ')[0]
 
@@ -46,6 +36,16 @@ def execute(lines):
     return i, accumulator
 
 
+def brute_force_execute(input):
+    for i in range(len(input)):
+        lines = input.copy()
+        if op(lines, i) != 'acc':
+            swap(lines, i)
+            ind, accumulator = execute(lines)
+            if ind >= len(input):
+                return ind, accumulator
+
+
 if __name__ == '__main__':
     print(f'1st result: {execute(read_lines("8.txt"))}')
-    print(f'2nd result: {get_accumulator(read_lines("8.txt"))}')
+    print(f'2nd result: {brute_force_execute(read_lines("8.txt"))}')
