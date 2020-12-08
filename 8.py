@@ -36,7 +36,7 @@ def execute(lines):
     return i, accumulator
 
 
-def brute_force_execute(input):
+def execute_with_swap(input):
     for i in range(len(input)):
         lines = input.copy()
         if op(lines, i) != 'acc':
@@ -48,4 +48,4 @@ def brute_force_execute(input):
 
 if __name__ == '__main__':
     print(f'1st result: {execute(read_lines("8.txt"))}')
-    print(f'2nd result: {brute_force_execute(read_lines("8.txt"))}')
+    print(f'2nd result: {execute_with_swap(read_lines("8.txt"))}')
