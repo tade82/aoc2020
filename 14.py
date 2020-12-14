@@ -8,23 +8,20 @@ def read_lines(file_name):
                 yield ''.join(blocks).splitlines()
 
 
-def masked_val(val, mask):
+def mask_value(val, mask):
     return ''.join([mask[i] if mask[i] != 'X' else val[i] for i in range(len(val))])
 
 
-def masked_addresses(addr, mask):
+def mask_address(addr, mask):
     result = []
-    tmp = [addr[i] if mask[i] == '0' else mask[i] for i in range(len(addr)) ]
-    repeat_count = tmp.count('X')
-    for x in itertools.product(range(2), repeat=repeat_count):
-        copy_tmp = tmp.copy()
-        c = 0
-        for i in range(len(tmp)):
-            if copy_tmp[i] == 'X':
-                copy_tmp[i] = str(x[c])
-                c += 1
-        result.append(''.join(copy_tmp))
+    masked = [addr[i] if mask[i] == '0' else mask[i] for i in range(len(addr))]
+    for x in itertools.product(['0', '1'], repeat=masked.count('X')):
+        result.append(floating(masked.copy(), list(x)))
     return result
+
+
+def floating(addr, values):
+    return ''.join([values.pop(0) if bit == 'X' else bit for bit in addr])
 
 
 def version1(program_blocks):
@@ -35,7 +32,7 @@ def version1(program_blocks):
         for p in program:
             addr = int(p.split('] = ')[0].replace('mem[', ''))
             val = f"{int(p.split('] = ')[1]):036b}"
-            memory[addr] = int(masked_val(val, mask), 2)
+            memory[addr] = int(mask_value(val, mask), 2)
     return memory
 
 
@@ -46,9 +43,8 @@ def version2(program_blocks):
         program = block[1:]
         for p in program:
             addr = int(p.split('] = ')[0].replace('mem[', ''))
-            bin_addr = f"{addr:036b}"
             val = int(p.split('] = ')[1])
-            for masked_address in masked_addresses(bin_addr, mask):
+            for masked_address in mask_address(f"{addr:036b}", mask):
                 memory[int(masked_address, 2)] = val
     return memory
 
