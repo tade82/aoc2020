@@ -3,33 +3,18 @@ import itertools
 
 def read_lines(file_name):
     with open(file_name) as fp:
-        snippet = []
         for blocks in fp.read().split('mask = '):
             if blocks:
                 yield ''.join(blocks).splitlines()
-            # for p in programs:
-            # if programs != '':
-            #     yield programs.split('\n')[:-1]
 
 
 def masked_val(val, mask):
-    result = []
-    for i in range(len(val)):
-        if mask[i] != 'X':
-            result.append(mask[i])
-        else:
-            result.append(val[i])
-    return ''.join(result)
+    return ''.join([mask[i] if mask[i] != 'X' else val[i] for i in range(len(val))])
 
 
 def masked_addresses(addr, mask):
     result = []
-    tmp = []
-    for i in range(len(addr)):
-        if mask[i] == '0':
-            tmp.append(addr[i])
-        else:
-            tmp.append(mask[i])
+    tmp = [addr[i] if mask[i] == '0' else mask[i] for i in range(len(addr)) ]
     repeat_count = tmp.count('X')
     for x in itertools.product(range(2), repeat=repeat_count):
         copy_tmp = tmp.copy()
